@@ -59,10 +59,17 @@ class Player(pygame.sprite.Sprite):
 
 
 class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, x, y, image, size):
+
+    IMAGES = {
+        'small': [pygame.image.load(f'Dinostorm/resources/asteroids/small/{x}.png') for x in range(1,16)],
+        'medium': [pygame.image.load(f'Dinostorm/resources/asteroids/medium/{x}.png') for x in range(1,16)],
+        'large': [pygame.image.load(f'Dinostorm/resources/asteroids/large/{x}.png') for x in range(1,16)]
+    }
+
+    def __init__(self, x, y, size):
         super().__init__()
 
-        self.image = image
+        self.image = self.IMAGES[size][0]
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
@@ -75,7 +82,18 @@ class Asteroid(pygame.sprite.Sprite):
             self.rect.bottom = 700
 
 class Game():
-    pass
+    def __init__(self, player, asteroids):
+        self.asteroids_dodged = 0
+
+        self.round_time = 0
+        self.frame_count = 0
+
+        self.player = player
+        self.asteroids = asteroids
+
+        self.asteroid_sizes = ['small', 'medium', 'large']
+        self.next_asteroid_size = random.choice(self.asteroid_sizes)
+        
 
 
 def draw_floor(floor_tile, positions):
